@@ -34,6 +34,12 @@ Planilha de controle dos participantes:
 https://docs.google.com/spreadsheets/d/1pczl1PGou7zDOS6t6qs9iSBBAKXh94trEqbE5qSp1Ms/edit?usp=sharing
 ```
 
+### Link de API Open AI
+
+```text
+https://957a-177-37-144-76.ngrok-free.app
+```
+
 ### 2. Atividade 1 - Triagem de e-mails
 
 Objetivo: ver a IA classificando uma mensagem.
