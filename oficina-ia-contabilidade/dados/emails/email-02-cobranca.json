@@ -1,0 +1,10 @@
+{
+  "id": "email-002",
+  "data": "2026-05-09T14:35:00-03:00",
+  "remetente": "Rafael Costa <rafael@costaservicos.example>",
+  "assunto": "Boleto vencendo hoje",
+  "corpo": "Boa tarde. Recebemos uma cobranca de ISS com vencimento hoje, mas nao localizei o boleto no portal. Voces conseguem reenviar com urgencia? Rafael.",
+  "anexos": [],
+  "categoria_esperada": "cobranca",
+  "prioridade_esperada": "alta"
+}

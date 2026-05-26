@@ -1,0 +1,9 @@
+{
+  "cliente": "Lima Distribuidora Ficticia Ltda",
+  "remetente": "Bruno Lima <bruno@limadistribuidora.example>",
+  "assunto": "Documentos de abril",
+  "corpo": "Segue o extrato bancario de abril. Ainda nao consegui baixar todas as notas de entrada, envio depois. Se faltar algo, me avisem.",
+  "anexos": [
+    "extrato-abril-2026.pdf"
+  ]
+}

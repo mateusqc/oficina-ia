@@ -1,0 +1,7 @@
+{
+  "cliente": "Costa Servicos Ficticios Ltda",
+  "remetente": "Rafael Costa <rafael@costaservicos.example>",
+  "assunto": "Boleto vencendo hoje",
+  "corpo": "Boa tarde. Recebemos uma cobranca de ISS com vencimento hoje, mas nao localizei o boleto no portal. Voces conseguem reenviar com urgencia?",
+  "anexos": []
+}

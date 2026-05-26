@@ -1,0 +1,20 @@
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: oficina-ia-n8n
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    environment:
+      - GENERIC_TIMEZONE=America/Fortaleza
+      - TZ=America/Fortaleza
+      - N8N_HOST=suited-elf-unduly.ngrok-free.app
+      - N8N_PORT=80
+      - N8N_PROTOCOL=http
+      - N8N_SECURE_COOKIE=false
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ../dados:/dados
+
+volumes:
+  n8n_data:

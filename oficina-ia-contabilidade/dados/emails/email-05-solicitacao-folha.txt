@@ -1,0 +1,10 @@
+De: Camila Rocha <rh@rochatech.example>
+Para: Escritorio Contabil Demo <atendimento@contador-demo.example>
+Data: 12/05/2026 08:48
+Assunto: Admissao para folha de maio
+
+Bom dia.
+
+Precisamos incluir um novo colaborador na folha de maio.
+A admissao esta prevista para 20/05.
+Seguem dados basicos e documentos no anexo.

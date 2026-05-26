@@ -1,0 +1,13 @@
+{
+  "id": "email-001",
+  "data": "2026-05-08T09:12:00-03:00",
+  "remetente": "Marina Alves <financeiro@alvesvarejo.example>",
+  "assunto": "XMLs das vendas de abril",
+  "corpo": "Bom dia. Seguem anexos os XMLs das notas de venda emitidas em abril. Podem confirmar se receberam tudo para fechar a apuracao? Obrigada, Marina.",
+  "anexos": [
+    "nfe-100245-alves-varejo.xml",
+    "nfe-100246-alves-varejo.xml"
+  ],
+  "categoria_esperada": "envio_xml",
+  "prioridade_esperada": "normal"
+}

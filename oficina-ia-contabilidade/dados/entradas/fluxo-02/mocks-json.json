@@ -1,0 +1,20 @@
+[
+  {
+    "descricao": "Venda de mercadorias - Alves Varejo",
+    "arquivo_mock": "nfe-alves-varejo-json.json",
+    "webhook": "fluxo-02-extracao-nfe-xml",
+    "campo_xml": "xml"
+  },
+  {
+    "descricao": "Servico tecnico - Costa Servicos",
+    "arquivo_mock": "nfe-costa-servicos-json.json",
+    "webhook": "fluxo-02-extracao-nfe-xml",
+    "campo_xml": "xml"
+  },
+  {
+    "descricao": "Venda interestadual - Nunes Decor",
+    "arquivo_mock": "nfe-nunes-decor-json.json",
+    "webhook": "fluxo-02-extracao-nfe-xml",
+    "campo_xml": "xml"
+  }
+]

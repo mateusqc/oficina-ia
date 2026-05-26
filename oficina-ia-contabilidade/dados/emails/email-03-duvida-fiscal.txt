@@ -1,0 +1,11 @@
+De: Paula Nunes <administrativo@nunesdecor.example>
+Para: Escritorio Contabil Demo <atendimento@contador-demo.example>
+Data: 10/05/2026 10:05
+Assunto: Duvida sobre emissao para cliente de outro estado
+
+Ola.
+
+Vamos vender para um cliente do Ceara, mas nossa empresa fica em Pernambuco.
+Devemos destacar ICMS normalmente ou existe alguma orientacao diferente para essa operacao?
+
+Paula

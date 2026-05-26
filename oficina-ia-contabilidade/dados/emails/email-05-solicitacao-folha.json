@@ -1,0 +1,12 @@
+{
+  "id": "email-005",
+  "data": "2026-05-12T08:48:00-03:00",
+  "remetente": "Camila Rocha <rh@rochatech.example>",
+  "assunto": "Admissao para folha de maio",
+  "corpo": "Bom dia. Precisamos incluir um novo colaborador na folha de maio. A admissao esta prevista para 20/05. Seguem dados basicos e documentos no anexo.",
+  "anexos": [
+    "dados-admissao-joao-pereira.pdf"
+  ],
+  "categoria_esperada": "solicitacao_folha",
+  "prioridade_esperada": "alta"
+}

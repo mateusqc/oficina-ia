@@ -1,0 +1,12 @@
+De: Marina Alves <financeiro@alvesvarejo.example>
+Para: Escritorio Contabil Demo <atendimento@contador-demo.example>
+Data: 08/05/2026 09:12
+Assunto: XMLs das vendas de abril
+
+Bom dia.
+
+Seguem anexos os XMLs das notas de venda emitidas em abril.
+Podem confirmar se receberam tudo para fechar a apuracao?
+
+Obrigada,
+Marina

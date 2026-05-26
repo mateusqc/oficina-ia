@@ -1,0 +1,11 @@
+De: Rafael Costa <rafael@costaservicos.example>
+Para: Escritorio Contabil Demo <atendimento@contador-demo.example>
+Data: 09/05/2026 14:35
+Assunto: Boleto vencendo hoje
+
+Boa tarde.
+
+Recebemos uma cobranca de ISS com vencimento hoje, mas nao localizei o boleto no portal.
+Voces conseguem reenviar com urgencia?
+
+Rafael

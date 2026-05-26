@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NFe xmlns="http://www.portalfiscal.inf.br/nfe">
+  <infNFe Id="NFe23260544555666000188550010002001181000011827" versao="4.00">
+    <ide>
+      <cUF>23</cUF>
+      <natOp>Prestacao de servico tecnico</natOp>
+      <mod>55</mod>
+      <serie>1</serie>
+      <nNF>200118</nNF>
+      <dhEmi>2026-05-09T13:10:00-03:00</dhEmi>
+      <tpNF>1</tpNF>
+    </ide>
+    <emit>
+      <CNPJ>44555666000188</CNPJ>
+      <xNome>Costa Servicos Ficticios Ltda</xNome>
+      <enderEmit>
+        <xMun>Fortaleza</xMun>
+        <UF>CE</UF>
+      </enderEmit>
+    </emit>
+    <dest>
+      <CNPJ>22333444000155</CNPJ>
+      <xNome>Mercado Modelo Ficticio Ltda</xNome>
+    </dest>
+    <det nItem="1">
+      <prod>
+        <cProd>SERV-042</cProd>
+        <xProd>Suporte mensal de sistemas internos</xProd>
+        <qCom>1.0000</qCom>
+        <vUnCom>1850.00</vUnCom>
+        <vProd>1850.00</vProd>
+      </prod>
+      <imposto>
+        <ISSQN><vBC>1850.00</vBC><vISSQN>92.50</vISSQN></ISSQN>
+      </imposto>
+    </det>
+    <total>
+      <ICMSTot>
+        <vProd>1850.00</vProd>
+        <vNF>1850.00</vNF>
+      </ICMSTot>
+    </total>
+  </infNFe>
+</NFe>

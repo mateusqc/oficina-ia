@@ -1,0 +1,160 @@
+{
+  "name": "Fluxo 00 - Agente simples com LM Studio",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "Fluxo introdutorio da oficina\n\n1. Recebe uma pergunta pelo Webhook\n2. Envia para o AI Agent\n3. O Agent usa o LM Studio\n4. Retorna uma resposta simples\n\nExemplo de pergunta:\nExplique o que e lucro presumido.",
+        "height": 220,
+        "width": 300
+      },
+      "id": "3f2c6c26-32bb-46b7-ae52-1111d6a0d001",
+      "name": "Como usar",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -620,
+        -120
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "fluxo-00-agente-simples",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "3f2c6c26-32bb-46b7-ae52-1111d6a0d002",
+      "name": "Entrada - Pergunta",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -260,
+        120
+      ],
+      "webhookId": "fluxo-00-agente-simples"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { pergunta: $('Entrada - Pergunta').first().json.body?.pergunta || $('Entrada - Pergunta').first().json.query?.pergunta || 'Explique o que e lucro presumido.', resposta: $json.output || 'Sem resposta do modelo.' } }}",
+        "options": {}
+      },
+      "id": "3f2c6c26-32bb-46b7-ae52-1111d6a0d004",
+      "name": "Resposta simples",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        360,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ 'Contexto: a pessoa esta em uma oficina introdutoria para escritorio contabil. Instrucao: responda de forma clara, sem juridiques e com um exemplo simples. Pergunta: ' + ($json.body?.pergunta || $json.query?.pergunta || 'Explique o que e lucro presumido.') }}",
+        "options": {
+          "systemMessage": "Voce e um assistente didatico para uma oficina de IA aplicada a contabilidade. Responda em portugues do Brasil, com linguagem simples, pratica e curta.",
+          "maxIterations": 3
+        }
+      },
+      "id": "3f2c6c26-32bb-46b7-ae52-1111d6a0d003",
+      "name": "AI Agent - Responder pergunta",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        40,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "qwen2.5-7b-instruct",
+          "mode": "id"
+        },
+        "options": {
+          "temperature": "0.2",
+          "maxTokens": "300",
+          "timeout": 30000
+        }
+      },
+      "id": "3f2c6c26-32bb-46b7-ae52-1111d6a0d005",
+      "name": "LM Studio - Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        40,
+        340
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "CONFIGURAR_NO_N8N",
+          "name": "LM Studio OpenAI Compatible"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "Configurar LM Studio no node OpenAI Chat Model\n\nCredencial OpenAI:\n- Base URL: http://host.docker.internal:1234/v1\n- API Key: lm-studio\n\nNo modelo:\n- selecione o modelo carregado no LM Studio\n- mantenha Use Responses API desligado\n\nAssim o Agent usa Chat Completions e evita erro text.format.",
+        "height": 300,
+        "width": 360,
+        "color": 2
+      },
+      "id": "3f2c6c26-32bb-46b7-ae52-1111d6a0d006",
+      "name": "Configurar LM Studio",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -300,
+        340
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Entrada - Pergunta": {
+      "main": [
+        [
+          {
+            "node": "AI Agent - Responder pergunta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LM Studio - Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent - Responder pergunta",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent - Responder pergunta": {
+      "main": [
+        [
+          {
+            "node": "Resposta simples",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "3f2c6c26-32bb-46b7-ae52-1111d6a0d000",
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "id": "fluxo-00-agente-simples",
+  "tags": []
+}

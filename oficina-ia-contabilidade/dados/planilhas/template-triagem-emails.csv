@@ -1,0 +1,4 @@
+tipo,cliente,competencia,urgencia,acao,assunto
+envio_xml,Alves Varejo Ficticio Ltda,2026-04,normal,registrar recebimento dos XMLs,XMLs das vendas de abril
+duvida_fiscal,Nunes Decor Ficticia Ltda,,normal,encaminhar para analista fiscal,Duvida sobre emissao para cliente de outro estado
+cobranca,Costa Servicos Ficticios Ltda,2026-05,alta,reenviar boleto ou guia,Boleto vencendo hoje

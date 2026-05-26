@@ -1,0 +1,6 @@
+cliente,competencia,pendencia,responsavel,prazo,status,prioridade
+Alves Varejo Ficticio Ltda,2026-04,Enviar XMLs de venda de abril,Marina Alves,2026-05-12,recebido,normal
+Costa Servicos Ficticios Ltda,2026-04,Confirmar boleto de ISS com vencimento no dia,Rafael Costa,2026-05-09,urgente,alta
+Lima Distribuidora Ficticia Ltda,2026-04,Enviar notas de entrada faltantes,Bruno Lima,2026-05-14,pendente,normal
+Martins Alimentos Ficticios Ltda,2026-04,Enviar comprovantes de aluguel e energia,Sergio Martins,2026-05-14,pendente,normal
+Rocha Tech Ficticia Ltda,2026-05,Enviar documentos completos de admissao,Camila Rocha,2026-05-16,em_analise,alta

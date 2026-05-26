@@ -1,0 +1,255 @@
+{
+  "name": "Fluxo 03 - Geracao de comunicacao de pendencias",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "Geracao de comunicacao operacional\n\nEntrada esperada no Webhook:\n{\n  \"cliente\": \"XPTO LTDA\",\n  \"pendencia\": \"XML da competencia 05/2026 nao enviado\"\n}\n\nO AI Agent gera uma mensagem profissional para registrar na planilha.",
+        "height": 260,
+        "width": 340
+      },
+      "id": "9b2f8c61-74a2-4d55-cf03-4444d6a0d001",
+      "name": "Como usar",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -720,
+        -120
+      ]
+    },
+    {
+      "parameters": {
+        "content": "Este fluxo NAO envia email real.\n\nEle apenas demonstra:\n1. contexto da pendencia\n2. prompt com tom profissional\n3. mensagem gerada pela IA\n4. registro no Google Sheets\n\nAssim a oficina evita SMTP e integracoes externas.",
+        "height": 240,
+        "width": 340
+      },
+      "id": "9b2f8c61-74a2-4d55-cf03-4444d6a0d002",
+      "name": "Observacao",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -720,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "fluxo-03-geracao-pendencias",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "9b2f8c61-74a2-4d55-cf03-4444d6a0d003",
+      "name": "Entrada - Pendencia",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -280,
+        160
+      ],
+      "webhookId": "fluxo-03-geracao-pendencias"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cliente",
+              "name": "cliente",
+              "value": "={{ $('Entrada - Pendencia').first().json.body?.cliente || 'Cliente nao informado' }}",
+              "type": "string"
+            },
+            {
+              "id": "pendencia",
+              "name": "pendencia",
+              "value": "={{ $('Entrada - Pendencia').first().json.body?.pendencia || 'Pendencia nao informada' }}",
+              "type": "string"
+            },
+            {
+              "id": "mensagem",
+              "name": "mensagem",
+              "value": "={{ $json.output || 'Sem mensagem gerada pelo modelo.' }}",
+              "type": "string"
+            },
+            {
+              "id": "status",
+              "name": "status",
+              "value": "rascunho_gerado",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9b2f8c61-74a2-4d55-cf03-4444d6a0d005",
+      "name": "Mensagem gerada",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        360,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "COLE_AQUI_O_ID_DA_PLANILHA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "pendencias",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "cliente": "={{ $json.cliente }}",
+            "pendencia": "={{ $json.pendencia }}",
+            "mensagem": "={{ $json.mensagem }}",
+            "status": "={{ $json.status }}"
+          },
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "9b2f8c61-74a2-4d55-cf03-4444d6a0d006",
+      "name": "Google Sheets - Registrar mensagem",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        680,
+        160
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURAR_NO_N8N",
+          "name": "Google Sheets Oficina"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ 'Gere uma mensagem curta para solicitar a regularizacao da pendencia abaixo. Regras: seja profissional, explique o motivo de forma simples, peca envio ou retorno, nao ameace, nao cite automacao, nao invente informacoes. Cliente: ' + ($json.body?.cliente || 'Cliente nao informado') + '. Pendencia: ' + ($json.body?.pendencia || 'Pendencia nao informada') }}",
+        "options": {
+          "systemMessage": "Voce escreve comunicacoes profissionais para clientes de um escritorio contabil. Use portugues do Brasil, tom cordial, claro e objetivo.",
+          "maxIterations": 3
+        }
+      },
+      "id": "9b2f8c61-74a2-4d55-cf03-4444d6a0d004",
+      "name": "AI Agent - Gerar mensagem",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        40,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "qwen2.5-7b-instruct",
+          "mode": "id"
+        },
+        "options": {
+          "temperature": "0.3",
+          "maxTokens": "260",
+          "timeout": 30000
+        }
+      },
+      "id": "9b2f8c61-74a2-4d55-cf03-4444d6a0d007",
+      "name": "LM Studio - Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        40,
+        380
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "CONFIGURAR_NO_N8N",
+          "name": "LM Studio OpenAI Compatible"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "Configurar LM Studio no node OpenAI Chat Model\n\nCredencial OpenAI:\n- Base URL: http://host.docker.internal:1234/v1\n- API Key: lm-studio\n\nNo modelo:\n- selecione o modelo carregado no LM Studio\n- mantenha Use Responses API desligado\n\nAssim o Agent usa Chat Completions e evita erro text.format.",
+        "height": 300,
+        "width": 360,
+        "color": 2
+      },
+      "id": "9b2f8c61-74a2-4d55-cf03-4444d6a0d008",
+      "name": "Configurar LM Studio",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -280,
+        380
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Entrada - Pendencia": {
+      "main": [
+        [
+          {
+            "node": "AI Agent - Gerar mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensagem gerada": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Registrar mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LM Studio - Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent - Gerar mensagem",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent - Gerar mensagem": {
+      "main": [
+        [
+          {
+            "node": "Mensagem gerada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "9b2f8c61-74a2-4d55-cf03-4444d6a0d000",
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "id": "fluxo-03-geracao-pendencias",
+  "tags": []
+}

@@ -1,0 +1,12 @@
+{
+  "id": "email-004",
+  "data": "2026-05-11T16:22:00-03:00",
+  "remetente": "Bruno Lima <bruno@limadistribuidora.example>",
+  "assunto": "Documentos de abril",
+  "corpo": "Segue o extrato bancario de abril. Ainda nao consegui baixar todas as notas de entrada, envio depois. Se faltar algo, me avisem.",
+  "anexos": [
+    "extrato-abril-2026.pdf"
+  ],
+  "categoria_esperada": "envio_incompleto",
+  "prioridade_esperada": "normal"
+}

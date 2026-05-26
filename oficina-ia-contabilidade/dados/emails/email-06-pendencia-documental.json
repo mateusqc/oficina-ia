@@ -1,0 +1,10 @@
+{
+  "id": "email-006",
+  "data": "2026-05-13T11:18:00-03:00",
+  "remetente": "Sergio Martins <sergio@martinsalimentos.example>",
+  "assunto": "Re: Pendencias do fechamento",
+  "corpo": "Bom dia. Ainda estamos procurando os comprovantes de aluguel e energia de abril. Consigo enviar ate amanha no fim da tarde. Isso impede o fechamento?",
+  "anexos": [],
+  "categoria_esperada": "pendencia_documental",
+  "prioridade_esperada": "normal"
+}

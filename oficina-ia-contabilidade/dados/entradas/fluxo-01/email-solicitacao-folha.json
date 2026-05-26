@@ -1,0 +1,9 @@
+{
+  "cliente": "Rocha Tech Ficticia Ltda",
+  "remetente": "Camila Rocha <rh@rochatech.example>",
+  "assunto": "Admissao para folha de maio",
+  "corpo": "Bom dia. Precisamos incluir um novo colaborador na folha de maio. A admissao esta prevista para 20/05. Seguem dados basicos e documentos no anexo.",
+  "anexos": [
+    "dados-admissao-joao-pereira.pdf"
+  ]
+}

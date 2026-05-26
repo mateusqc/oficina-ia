@@ -1,0 +1,6 @@
+data,cliente,tipo,descricao,valor,categoria
+2026-04-03,Alves Varejo Ficticio Ltda,entrada,Venda balcão conforme NF 100245,429.00,receita_vendas
+2026-04-05,Costa Servicos Ficticios Ltda,entrada,Suporte mensal de sistemas,1850.00,receita_servicos
+2026-04-08,Martins Alimentos Ficticios Ltda,saida,Pagamento energia eletrica,612.40,despesa_operacional
+2026-04-11,Lima Distribuidora Ficticia Ltda,saida,Frete de entrega regional,780.00,logistica
+2026-04-20,Rocha Tech Ficticia Ltda,saida,Adiantamento salarial,1200.00,folha

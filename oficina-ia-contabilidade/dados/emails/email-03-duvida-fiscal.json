@@ -1,0 +1,10 @@
+{
+  "id": "email-003",
+  "data": "2026-05-10T10:05:00-03:00",
+  "remetente": "Paula Nunes <administrativo@nunesdecor.example>",
+  "assunto": "Duvida sobre emissao para cliente de outro estado",
+  "corpo": "Ola. Vamos vender para um cliente do Ceara, mas nossa empresa fica em Pernambuco. Devemos destacar ICMS normalmente ou existe alguma orientacao diferente para essa operacao? Paula.",
+  "anexos": [],
+  "categoria_esperada": "duvida_fiscal",
+  "prioridade_esperada": "normal"
+}

@@ -1,0 +1,262 @@
+{
+  "name": "Fluxo 02 - Extracao de NF-e XML",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "Extracao de dados de NF-e XML\n\nEntrada esperada no Webhook:\n{\n  \"xml\": \"<NFe>...</NFe>\",\n  \"arquivo\": \"nfe-exemplo.xml\"\n}\n\nO XML chega como texto no JSON e e enviado ao AI Agent.",
+        "height": 260,
+        "width": 340
+      },
+      "id": "7a8d9f40-53f1-4a33-bf02-3333d6a0d001",
+      "name": "Como usar",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -760,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "content": "JSON esperado da IA:\n\n{\n  \"fornecedor\": \"\",\n  \"cnpj\": \"\",\n  \"valor_total\": \"\",\n  \"competencia\": \"\",\n  \"categoria\": \"\"\n}\n\nA entrada e um JSON com o campo `xml`, nao upload de arquivo.",
+        "height": 240,
+        "width": 340
+      },
+      "id": "7a8d9f40-53f1-4a33-bf02-3333d6a0d002",
+      "name": "Formato de saida",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -760,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "fluxo-02-extracao-nfe-xml",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "7a8d9f40-53f1-4a33-bf02-3333d6a0d003",
+      "name": "Entrada - XML no JSON",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -320,
+        160
+      ],
+      "webhookId": "fluxo-02-extracao-nfe-xml"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fornecedor",
+              "name": "fornecedor",
+              "value": "={{ JSON.parse($json.output).fornecedor }}",
+              "type": "string"
+            },
+            {
+              "id": "cnpj",
+              "name": "cnpj",
+              "value": "={{ JSON.parse($json.output).cnpj }}",
+              "type": "string"
+            },
+            {
+              "id": "valor_total",
+              "name": "valor_total",
+              "value": "={{ JSON.parse($json.output).valor_total }}",
+              "type": "string"
+            },
+            {
+              "id": "competencia",
+              "name": "competencia",
+              "value": "={{ JSON.parse($json.output).competencia }}",
+              "type": "string"
+            },
+            {
+              "id": "categoria",
+              "name": "categoria",
+              "value": "={{ JSON.parse($json.output).categoria }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7a8d9f40-53f1-4a33-bf02-3333d6a0d006",
+      "name": "JSON estruturado",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        640,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "COLE_AQUI_O_ID_DA_PLANILHA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "notas_fiscais",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "fornecedor": "={{ $json.fornecedor }}",
+            "cnpj": "={{ $json.cnpj }}",
+            "valor_total": "={{ $json.valor_total }}",
+            "competencia": "={{ $json.competencia }}",
+            "categoria": "={{ $json.categoria }}"
+          },
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "7a8d9f40-53f1-4a33-bf02-3333d6a0d007",
+      "name": "Google Sheets - Registrar nota",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        960,
+        160
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURAR_NO_N8N",
+          "name": "Google Sheets Oficina"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ 'Leia a NF-e abaixo em XML e extraia exatamente este JSON: {\"fornecedor\":\"\",\"cnpj\":\"\",\"valor_total\":\"\",\"competencia\":\"\",\"categoria\":\"\"}. Regras: fornecedor vem de emit/xNome; cnpj vem de emit/CNPJ; valor_total vem de total/ICMSTot/vNF; competencia deve ser AAAA-MM com base em ide/dhEmi; categoria deve ser curta, como material_consumo, servicos_tomados ou mercadorias, olhando natOp e xProd. Responda somente JSON valido. Arquivo: ' + ($json.body?.arquivo || 'xml-informado-no-webhook') + '. XML: ' + ($json.body?.xml || '') }}",
+        "options": {
+          "systemMessage": "Voce e um assistente de escritorio contabil. Extraia dados de NF-e a partir do XML informado no webhook. Responda somente JSON valido, sem markdown, sem texto antes e sem texto depois.",
+          "maxIterations": 3
+        }
+      },
+      "id": "7a8d9f40-53f1-4a33-bf02-3333d6a0d005",
+      "name": "AI Agent - Extrair dados",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        320,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "qwen2.5-7b-instruct",
+          "mode": "id"
+        },
+        "options": {
+          "temperature": "0.1",
+          "maxTokens": "250",
+          "timeout": 30000
+        }
+      },
+      "id": "7a8d9f40-53f1-4a33-bf02-3333d6a0d008",
+      "name": "LM Studio - Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        320,
+        380
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "CONFIGURAR_NO_N8N",
+          "name": "LM Studio OpenAI Compatible"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "Configurar LM Studio no node OpenAI Chat Model\n\nCredencial OpenAI:\n- Base URL: http://host.docker.internal:1234/v1\n- API Key: lm-studio\n\nNo modelo:\n- selecione o modelo carregado no LM Studio\n- mantenha Use Responses API desligado\n\nAssim o Agent usa Chat Completions e evita erro text.format.",
+        "height": 300,
+        "width": 360,
+        "color": 2
+      },
+      "id": "7a8d9f40-53f1-4a33-bf02-3333d6a0d009",
+      "name": "Configurar LM Studio",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        380
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "JSON estruturado": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Registrar nota",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LM Studio - Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent - Extrair dados",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent - Extrair dados": {
+      "main": [
+        [
+          {
+            "node": "JSON estruturado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Entrada - XML no JSON": {
+      "main": [
+        [
+          {
+            "node": "AI Agent - Extrair dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "7a8d9f40-53f1-4a33-bf02-3333d6a0d100",
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "id": "fluxo-02-extracao-nfe-xml",
+  "tags": []
+}

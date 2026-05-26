@@ -1,0 +1,617 @@
+{
+  "name": "Fluxo 01 - Triagem inteligente de emails",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "Triagem de emails contabeis\n\nEntrada esperada no Webhook:\n{\n  \"cliente\": \"Alves Varejo Ficticio Ltda\",\n  \"assunto\": \"XMLs das vendas de abril\",\n  \"corpo\": \"Seguem anexos os XMLs...\"\n}\n\nO AI Agent classifica a intencao e devolve JSON estruturado.",
+        "height": 260,
+        "width": 340
+      },
+      "id": "5d7e7f19-3df8-4fd7-ae01-2222d6a0d001",
+      "name": "Como usar",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -760,
+        -180
+      ]
+    },
+    {
+      "parameters": {
+        "content": "JSON esperado da IA:\n\n{\n  \"tipo\": \"envio_xml\",\n  \"cliente\": \"\",\n  \"competencia\": \"\",\n  \"urgencia\": \"baixa|normal|alta\",\n  \"acao\": \"\"\n}\n\nTipos aceitos:\nenvio_xml, duvida_fiscal, cobranca, pendencia_documental, solicitacao_folha",
+        "height": 260,
+        "width": 340
+      },
+      "id": "5d7e7f19-3df8-4fd7-ae01-2222d6a0d002",
+      "name": "Formato de saida",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -760,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "fluxo-01-triagem-emails",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "5d7e7f19-3df8-4fd7-ae01-2222d6a0d003",
+      "name": "Entrada - Email",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -320,
+        160
+      ],
+      "webhookId": "fluxo-01-triagem-emails"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "tipo",
+              "name": "tipo",
+              "value": "={{ JSON.parse($json.output).tipo }}",
+              "type": "string"
+            },
+            {
+              "id": "cliente",
+              "name": "cliente",
+              "value": "={{ JSON.parse($json.output).cliente }}",
+              "type": "string"
+            },
+            {
+              "id": "competencia",
+              "name": "competencia",
+              "value": "={{ JSON.parse($json.output).competencia }}",
+              "type": "string"
+            },
+            {
+              "id": "urgencia",
+              "name": "urgencia",
+              "value": "={{ JSON.parse($json.output).urgencia }}",
+              "type": "string"
+            },
+            {
+              "id": "acao",
+              "name": "acao",
+              "value": "={{ JSON.parse($json.output).acao }}",
+              "type": "string"
+            },
+            {
+              "id": "assunto",
+              "name": "assunto",
+              "value": "={{ $('Entrada - Email').first().json.body?.assunto || '' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5d7e7f19-3df8-4fd7-ae01-2222d6a0d005",
+      "name": "JSON estruturado",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        320,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.tipo }}",
+                    "rightValue": "envio_xml",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "XML"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.tipo }}",
+                    "rightValue": "duvida_fiscal",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Fiscal"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.tipo }}",
+                    "rightValue": "cobranca",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Cobranca"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.tipo }}",
+                    "rightValue": "pendencia_documental",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Pendencia"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.tipo }}",
+                    "rightValue": "solicitacao_folha",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Folha"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "id": "5d7e7f19-3df8-4fd7-ae01-2222d6a0d006",
+      "name": "Rotear por intencao",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        640,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "COLE_AQUI_O_ID_DA_PLANILHA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "triagem_emails",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "tipo": "={{ $json.tipo }}",
+            "cliente": "={{ $json.cliente }}",
+            "competencia": "={{ $json.competencia }}",
+            "urgencia": "={{ $json.urgencia }}",
+            "acao": "={{ $json.acao }}",
+            "assunto": "={{ $json.assunto }}"
+          },
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "5d7e7f19-3df8-4fd7-ae01-2222d6a0d007",
+      "name": "Sheets - XML recebido",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        980,
+        -120
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURAR_NO_N8N",
+          "name": "Google Sheets Oficina"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "COLE_AQUI_O_ID_DA_PLANILHA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "triagem_emails",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "tipo": "={{ $json.tipo }}",
+            "cliente": "={{ $json.cliente }}",
+            "competencia": "={{ $json.competencia }}",
+            "urgencia": "={{ $json.urgencia }}",
+            "acao": "={{ $json.acao }}",
+            "assunto": "={{ $json.assunto }}"
+          },
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "5d7e7f19-3df8-4fd7-ae01-2222d6a0d008",
+      "name": "Sheets - Duvida fiscal",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        980,
+        40
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURAR_NO_N8N",
+          "name": "Google Sheets Oficina"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "COLE_AQUI_O_ID_DA_PLANILHA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "triagem_emails",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "tipo": "={{ $json.tipo }}",
+            "cliente": "={{ $json.cliente }}",
+            "competencia": "={{ $json.competencia }}",
+            "urgencia": "={{ $json.urgencia }}",
+            "acao": "={{ $json.acao }}",
+            "assunto": "={{ $json.assunto }}"
+          },
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "5d7e7f19-3df8-4fd7-ae01-2222d6a0d009",
+      "name": "Sheets - Cobranca",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        980,
+        200
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURAR_NO_N8N",
+          "name": "Google Sheets Oficina"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "COLE_AQUI_O_ID_DA_PLANILHA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "triagem_emails",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "tipo": "={{ $json.tipo }}",
+            "cliente": "={{ $json.cliente }}",
+            "competencia": "={{ $json.competencia }}",
+            "urgencia": "={{ $json.urgencia }}",
+            "acao": "={{ $json.acao }}",
+            "assunto": "={{ $json.assunto }}"
+          },
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "5d7e7f19-3df8-4fd7-ae01-2222d6a0d010",
+      "name": "Sheets - Pendencia",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        980,
+        360
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURAR_NO_N8N",
+          "name": "Google Sheets Oficina"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "COLE_AQUI_O_ID_DA_PLANILHA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "triagem_emails",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "tipo": "={{ $json.tipo }}",
+            "cliente": "={{ $json.cliente }}",
+            "competencia": "={{ $json.competencia }}",
+            "urgencia": "={{ $json.urgencia }}",
+            "acao": "={{ $json.acao }}",
+            "assunto": "={{ $json.assunto }}"
+          },
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "5d7e7f19-3df8-4fd7-ae01-2222d6a0d011",
+      "name": "Sheets - Folha",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        980,
+        520
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURAR_NO_N8N",
+          "name": "Google Sheets Oficina"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ 'Classifique o email abaixo. Use somente um destes tipos: envio_xml, duvida_fiscal, cobranca, pendencia_documental, solicitacao_folha. Retorne exatamente este formato: {\"tipo\":\"\",\"cliente\":\"\",\"competencia\":\"\",\"urgencia\":\"\",\"acao\":\"\"}. Regras: urgencia deve ser baixa, normal ou alta; competencia deve ser AAAA-MM quando aparecer no texto, senao vazio; acao deve ser curta e operacional. Email: cliente=' + ($json.body?.cliente || 'Cliente nao informado') + '; assunto=' + ($json.body?.assunto || '') + '; corpo=' + ($json.body?.corpo || '') }}",
+        "options": {
+          "systemMessage": "Voce e um assistente de triagem de emails para um escritorio contabil. Sua tarefa e classificar a intencao do email. Responda somente JSON valido, sem markdown, sem texto antes e sem texto depois.",
+          "maxIterations": 3
+        }
+      },
+      "id": "5d7e7f19-3df8-4fd7-ae01-2222d6a0d004",
+      "name": "AI Agent - Classificar email",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        0,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "qwen2.5-7b-instruct",
+          "mode": "id"
+        },
+        "options": {
+          "temperature": "0.1",
+          "maxTokens": "250",
+          "timeout": 30000
+        }
+      },
+      "id": "5d7e7f19-3df8-4fd7-ae01-2222d6a0d012",
+      "name": "LM Studio - Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        0,
+        380
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "CONFIGURAR_NO_N8N",
+          "name": "LM Studio OpenAI Compatible"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "Configurar LM Studio no node OpenAI Chat Model\n\nCredencial OpenAI:\n- Base URL: http://host.docker.internal:1234/v1\n- API Key: lm-studio\n\nNo modelo:\n- selecione o modelo carregado no LM Studio\n- mantenha Use Responses API desligado\n\nAssim o Agent usa Chat Completions e evita erro text.format.",
+        "height": 300,
+        "width": 360,
+        "color": 2
+      },
+      "id": "5d7e7f19-3df8-4fd7-ae01-2222d6a0d013",
+      "name": "Configurar LM Studio",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -320,
+        380
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Entrada - Email": {
+      "main": [
+        [
+          {
+            "node": "AI Agent - Classificar email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON estruturado": {
+      "main": [
+        [
+          {
+            "node": "Rotear por intencao",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rotear por intencao": {
+      "main": [
+        [
+          {
+            "node": "Sheets - XML recebido",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Sheets - Duvida fiscal",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Sheets - Cobranca",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Sheets - Pendencia",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Sheets - Folha",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LM Studio - Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent - Classificar email",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent - Classificar email": {
+      "main": [
+        [
+          {
+            "node": "JSON estruturado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "5d7e7f19-3df8-4fd7-ae01-2222d6a0d000",
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "id": "fluxo-01-triagem-emails",
+  "tags": []
+}

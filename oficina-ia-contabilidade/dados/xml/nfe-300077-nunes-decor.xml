@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NFe xmlns="http://www.portalfiscal.inf.br/nfe">
+  <infNFe Id="NFe26260566777888000199550010003000771000007763" versao="4.00">
+    <ide>
+      <cUF>26</cUF>
+      <natOp>Venda interestadual de mercadoria</natOp>
+      <mod>55</mod>
+      <serie>1</serie>
+      <nNF>300077</nNF>
+      <dhEmi>2026-05-10T15:04:00-03:00</dhEmi>
+      <tpNF>1</tpNF>
+    </ide>
+    <emit>
+      <CNPJ>66777888000199</CNPJ>
+      <xNome>Nunes Decor Ficticia Ltda</xNome>
+      <enderEmit>
+        <xMun>Recife</xMun>
+        <UF>PE</UF>
+      </enderEmit>
+    </emit>
+    <dest>
+      <CNPJ>33444555000177</CNPJ>
+      <xNome>Projeto Lar Ficticio Ltda</xNome>
+    </dest>
+    <det nItem="1">
+      <prod>
+        <cProd>DEC-105</cProd>
+        <xProd>Itens decorativos para ambiente comercial</xProd>
+        <qCom>6.0000</qCom>
+        <vUnCom>215.00</vUnCom>
+        <vProd>1290.00</vProd>
+      </prod>
+      <imposto>
+        <ICMS><ICMS00><vICMS>154.80</vICMS></ICMS00></ICMS>
+        <PIS><PISAliq><vPIS>21.29</vPIS></PISAliq></PIS>
+        <COFINS><COFINSAliq><vCOFINS>98.04</vCOFINS></COFINSAliq></COFINS>
+      </imposto>
+    </det>
+    <total>
+      <ICMSTot>
+        <vProd>1290.00</vProd>
+        <vNF>1290.00</vNF>
+      </ICMSTot>
+    </total>
+  </infNFe>
+</NFe>

@@ -1,0 +1,7 @@
+categoria,descricao,acao_sugerida,aba_google_sheets
+envio_xml,Cliente enviou XML ou documento fiscal,Registrar recebimento e validar anexos,emails
+cobranca,Cliente menciona boleto guia imposto ou vencimento,Priorizar atendimento financeiro,emails
+duvida_fiscal,Cliente pede orientacao tributaria,Encaminhar para analista fiscal,emails
+envio_incompleto,Cliente enviou parte da documentacao,Criar pendencia de documentos,pendencias
+solicitacao_folha,Cliente pede admissao demissao ferias ou folha,Encaminhar para departamento pessoal,emails
+pendencia_documental,Cliente responde sobre documentos faltantes,Atualizar controle de pendencias,pendencias

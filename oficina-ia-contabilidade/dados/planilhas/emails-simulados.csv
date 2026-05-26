@@ -1,0 +1,7 @@
+id,data,remetente,assunto,categoria_esperada,prioridade_esperada
+email-001,2026-05-08,Marina Alves,XMLs das vendas de abril,envio_xml,normal
+email-002,2026-05-09,Rafael Costa,Boleto vencendo hoje,cobranca,alta
+email-003,2026-05-10,Paula Nunes,Duvida sobre emissao para cliente de outro estado,duvida_fiscal,normal
+email-004,2026-05-11,Bruno Lima,Documentos de abril,envio_incompleto,normal
+email-005,2026-05-12,Camila Rocha,Admissao para folha de maio,solicitacao_folha,alta
+email-006,2026-05-13,Sergio Martins,Re: Pendencias do fechamento,pendencia_documental,normal
